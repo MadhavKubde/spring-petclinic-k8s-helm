@@ -53,42 +53,19 @@ An end-to-end cloud-native deployment pipeline for the **Spring PetClinic (Java 
 ## 🚀 Setup & Execution Guide
 
 ### 1. Provision Kind Kubernetes Cluster
+
+### 🚀 Setup & Deployment Guide
+
+#### 1. Provision the Kind Kubernetes Cluster
 ```bash
 kind create cluster --name petclinic-cluster --config kind-config.yaml
-2. Deploy Metrics Server (Required for HPA)
-Bash
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+2. Deploy & Configure Metrics Server (Required for HPA)Bashkubectl apply -f [https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml](https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml)
+
 kubectl patch deployment metrics-server -n kube-system --type="strategic" -p '{"spec":{"template":{"spec":{"containers":[{"name":"metrics-server","args":["--cert-dir=/tmp","--secure-port=4443","--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname","--kubelet-use-node-status-port","--metric-resolution=15s","--kubelet-insecure-tls"]}]}}}}'
-3. Deploy Observability Stack (Prometheus & Grafana)
-Bash
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+3. Deploy Observability Stack (Prometheus & Grafana)Bashhelm repo add prometheus-community [https://prometheus-community.github.io/helm-charts](https://prometheus-community.github.io/helm-charts)
 helm repo update
 helm install monitoring prometheus-community/kube-prometheus-stack -n monitoring --create-namespace
-4. Deploy Spring PetClinic via Helm
-Bash
-helm install petclinic-release ./petclinic-chart
-🔍 Validation & Testing
-Access the Services
-PetClinic Web Application: http://localhost:8080 (or run kubectl port-forward svc/petclinic 8080:8080)
-
-Grafana Dashboard: http://localhost:3000 (Port-forward: kubectl port-forward -n monitoring svc/monitoring-grafana 3000:80)
-
-Default Username: admin
-
-Dashboard ID: Import 4701 (JVM Micrometer)
-
-Trigger Autoscaling (HPA Load Test)
-Run an automated request loop in PowerShell:
-
-PowerShell
-while($true) { Invoke-RestMethod -Uri "http://localhost:8080/owners?lastName=" -TimeoutSec 1 }
-Monitor pod scaling live:
-
-
-Bash
-kubectl get hpa petclinic-hpa -w
-
----
-
-
+4. Deploy Spring PetClinic Application via HelmBashhelm install petclinic-release ./petclinic-chart
+🔍 Validation, Testing & VerificationService Access EndpointsServiceLocal URLPort-Forward CommandDefault Credentials / IDSpring PetClinichttp://localhost:8080kubectl port-forward svc/petclinic 8080:8080N/AGrafana Dashboardhttp://localhost:3000kubectl port-forward -n monitoring svc/monitoring-grafana 3000:80User: admin | Dashboard: 4701Autoscaling Verification (HPA Load Test)Generate HTTP Load (Run in PowerShell):PowerShellwhile($true) { Invoke-RestMethod -Uri "http://localhost:8080/owners?lastName=" -TimeoutSec 1 }
+Watch Pod Autoscaling in Real-Time:Bashkubectl get hpa petclinic-hpa -w
 
