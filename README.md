@@ -84,6 +84,7 @@ PowerShell
 while($true) { Invoke-RestMethod -Uri "http://localhost:8080/owners?lastName=" -TimeoutSec 1 }
 Monitor pod scaling live:
 
+
 Bash
 kubectl get hpa petclinic-hpa -w
 
