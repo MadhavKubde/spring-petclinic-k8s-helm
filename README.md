@@ -89,10 +89,5 @@ kubectl get hpa petclinic-hpa -w
 
 ---
 
-### How to Apply in GitHub:
-1. Open your repository on GitHub.
-2. Click on **README.md** and click the **Pencil icon** (Edit).
-3. Select everything (`Ctrl + A`), delete it, and paste the content above.
-4. Click the **Preview** tab at the top of the editor to confirm the clean rendering.
-5. Click **Commit changes...** $\rightarrow$ **Commit changes**.
+
 
