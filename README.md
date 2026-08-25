@@ -56,7 +56,6 @@ An end-to-end cloud-native deployment pipeline for the **Spring PetClinic (Java 
 
 ### 🚀 Setup & Deployment Guide
 
-#### 1. Provision the Kind Kubernetes Cluster
 ```bash
 kind create cluster --name petclinic-cluster --config kind-config.yaml
 2. Deploy & Configure Metrics Server (Required for HPA)Bashkubectl apply -f [https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml](https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml)
